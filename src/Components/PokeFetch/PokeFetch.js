@@ -9,6 +9,8 @@ class PokeFetch extends Component {
       pokeInfo: '',
       pokeSprite: '',
       pokeName: '',
+      count: 10,
+     
     }
   }
 
@@ -29,11 +31,30 @@ class PokeFetch extends Component {
       .catch((err) => console.log(err))
   }
 
-  render() {
+  timer(){
+    this.setState({
+      count: 10
+    })
+    return this.count == 10 ? this.count -- : this.count; 
+  }
+  
+  componentWillMount(){
+    this.timer();
+  }
+    
+  componentDidMount(){
+    setInterval(() => this.state.count - 1)
+      
+    }
+  
+  
+
+  render(){
+    const {count} = this.state
     return (
       <div className={'wrapper'}>
-        <button className={'start'} onClick={() => this.fetchPokemon()}>Start!</button>
-        <h1 className={'timer'} >Timer Display</h1>
+        <button className={'start'} onClick={() => this.fetchPokemon()} onSubmit={() => this.timer()} >Start!</button>
+        <h1 className={'timer'} >Timer Display {count} </h1>
         <div className={'pokeWrap'}>
           <img className={'pokeImg'} src={this.state.pokeSprite} />
           <h1 className={'pokeName'}>{this.state.pokeName}</h1>
@@ -42,5 +63,7 @@ class PokeFetch extends Component {
     )
   }
 }
+
+
 
 export default PokeFetch;
